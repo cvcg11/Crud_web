@@ -55,3 +55,16 @@ btnAgregar.addEventListener("click", ()=>{
 btnCerrar.addEventListener("click", ()=>{
     modal.close();
 })
+
+
+//Agregar un nuevo integrante desde el formulario
+const frmAgregar = document.getElementById("frmAgregar")
+
+frmAgregar.addEventListener("submit", async e => {
+    e.preventDefault();
+
+    const nombre = document.getElementById("txtNombre").value.trim();
+    const apellido = document.getElementById("txtApellido").value.trim();
+    const correo = document.getElementById("txtemail").value.trim();
+
+});
