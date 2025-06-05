@@ -37,8 +37,7 @@ function MostrarRegistro(datos){
         `; 
     }); //por cada persona en el JSON  
 }
-
-console.log("Linganguliguliwacha"); 
+ 
 ObtenerRegistros(); 
 
 
@@ -66,5 +65,28 @@ frmAgregar.addEventListener("submit", async e => {
     const nombre = document.getElementById("txtNombre").value.trim();
     const apellido = document.getElementById("txtApellido").value.trim();
     const correo = document.getElementById("txtemail").value.trim();
+
+    if(!nombre || !apellido || !correo){
+        alert("Complete todo los campos requeridos")
+        return;
+    }
+
+    const respuesta = await fetch(API_URL, {
+        method: "POST",
+        headers: {'Content-Type':'application/json'},
+        body: JSON.stringify({
+            nombre,
+            apellido,
+            correo
+        })
+    });
+    
+    if(respuesta.ok){
+        alert("El registro fue agregado correctamente");
+        document.getElementById("frmAgregar").reset();
+        modal.close();
+    }
+    
+    ObtenerRegistros();
 
 });
