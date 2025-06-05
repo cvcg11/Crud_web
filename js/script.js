@@ -46,3 +46,4 @@ ObtenerRegistros();
 //Proceso para agregar registros
 const modal = document.getElementById("mdAgregar")
 const btnAgregar = document.getElementById("btnAgregar")
+const btnCerrar = document.getElementById("btnCerrarModal")
