@@ -1,0 +1,25 @@
+.add-button{
+    position: fixed;
+    right: 40px;
+    bottom: 30px;
+    background-color: rgb(0, 124, 0);
+    color: white;
+    border-radius: 50%;
+    border: none;
+    height: 70px;
+    width: 70px;
+    box-shadow: 0px 6px 10px black rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;/*Alineacion Horizontal*/
+    align-items: center; /*Alineacion Vertical*/
+    z-index: 1001;/*Para que el boton siempre quede "Encima del contenido"*/
+    transition: transform 0.4s; /*Duracion del efecto*/
+}
+
+.add-button:hover{
+    transform: scale(1.1);
+}
+
+.tabla-scroll{
+    overflow-x: auto;
+}
