@@ -2,26 +2,26 @@
 const API_URL = "https://retoolapi.dev/LUNaas/Integrantes"
 
 //Función que llama la API y realiza una solicitud GET. Obtiene un JSON
-async function ObtenerRegistros(){
+async function ObtenerRegistros() {
     //HAcemos GET al servidor y obtener la respuesta 
-    const respuesta = await fetch(API_URL); 
+    const respuesta = await fetch(API_URL);
 
     //Obtenemos los datos tipo JSON 
     const data = await respuesta.json(); // ya es un JSON 
 
     //Llamamos a MostrarRegistros y envíamos el JSON 
-    MostrarRegistro(data); 
+    MostrarRegistro(data);
 }
 
 //Función para generar las vistas de la tabla
 //"datos" representa al JSON 
-function MostrarRegistro(datos){
-//Se llama al elemento tbody dentro de la tabla con id "tabla"
+function MostrarRegistro(datos) {
+    //Se llama al elemento tbody dentro de la tabla con id "tabla"
     const tabla = document.querySelector("#tabla tbody");
 
-//Para inyectar código HTML usamos innerHTML
+    //Para inyectar código HTML usamos innerHTML
     tabla.innerHTML = ""; //vaciamos los datos de la tabla
-    
+
     datos.forEach(persona => {
         tabla.innerHTML += `
             <tr>
@@ -31,14 +31,14 @@ function MostrarRegistro(datos){
                 <td>${persona.correo}</td>
                 <td>
                     <button>Editar</button>
-                    <button>Eliminar</button>
+                    <button onclick="Eliminar(${persona.id})">Eliminar</button>
                 </td>
             </tr>
-        `; 
+        `;
     }); //por cada persona en el JSON  
 }
- 
-ObtenerRegistros(); 
+
+ObtenerRegistros();
 
 
 
@@ -47,11 +47,11 @@ const modal = document.getElementById("mdAgregar");
 const btnAgregar = document.getElementById("btnAgregar");
 const btnCerrar = document.getElementById("btnCerrarModal");
 
-btnAgregar.addEventListener("click", ()=>{
+btnAgregar.addEventListener("click", () => {
     modal.showModal();
 });
 
-btnCerrar.addEventListener("click", ()=>{
+btnCerrar.addEventListener("click", () => {
     modal.close();
 })
 
@@ -66,27 +66,43 @@ frmAgregar.addEventListener("submit", async e => {
     const apellido = document.getElementById("txtApellido").value.trim();
     const correo = document.getElementById("txtemail").value.trim();
 
-    if(!nombre || !apellido || !correo){
+    if (!nombre || !apellido || !correo) {
         alert("Complete todo los campos requeridos")
         return;
     }
 
     const respuesta = await fetch(API_URL, {
         method: "POST",
-        headers: {'Content-Type':'application/json'},
+        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
             nombre,
             apellido,
             correo
         })
     });
-    
-    if(respuesta.ok){
+
+    if (respuesta.ok) {
         alert("El registro fue agregado correctamente");
         document.getElementById("frmAgregar").reset();
         modal.close();
     }
-    
+
     ObtenerRegistros();
 
 });
+
+//Funcion para borra para borrar registro
+
+async function Eliminar(id) {
+    const confirmacion = confirm("¿Seguro que desea eliminar el regsitro")
+
+    //Validar si el usuario acepto
+    if (confirmacion) {
+        await fetch(`${API_URL}/${id}`, {
+            method: "DELETE"
+        });
+
+        ObtenerRegistros();
+    }
+
+}
