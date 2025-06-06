@@ -30,7 +30,7 @@ function MostrarRegistro(datos) {
                 <td>${persona.apellido}</td>
                 <td>${persona.correo}</td>
                 <td>
-                    <button>Editar</button>
+                    <button onclick="Actualizar(${persona.id})">Editar</button>
                     <button onclick="Eliminar(${persona.id})">Eliminar</button>
                 </td>
             </tr>
@@ -104,5 +104,58 @@ async function Eliminar(id) {
 
         ObtenerRegistros();
     }
+
+}
+
+
+
+const modals = document.getElementById("mdEditar")
+const btnCerrarEditar = document.getElementById("btnCerrarModalEditar");
+const frmEditar = document.getElementById("frmEditar")
+
+btnCerrarEditar.addEventListener("click", () => {
+    modals.close();
+})
+
+
+async function Actualizar(id) {
+    const confirmacion = confirm("¿Seguro que desea actualizar el regsitro");
+    if (confirmacion) {
+        modals.showModal();
+
+        frmEditar.addEventListener("submit", async e => {
+            e.preventDefault();
+
+            const nombre = document.getElementById("txtNombrePut").value.trim();
+            const apellido = document.getElementById("txtApellidoPut").value.trim();
+            const correo = document.getElementById("txtemailPut").value.trim();
+
+            if (!nombre || !apellido || !correo) {
+                alert("Complete todo los campos requeridos")
+                return;
+            }
+
+            const respuesta = await fetch(`${API_URL}/${id}`, {
+                method: "PUT",
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    nombre,
+                    apellido,
+                    correo
+                })
+            });
+        
+            if (respuesta.ok) {
+                alert("El registro fue Actualizado correctamente");
+                document.getElementById("frmEditar").reset();
+                modals.close();
+            }
+        
+            ObtenerRegistros();
+
+        })
+
+    }
+
 
 }
