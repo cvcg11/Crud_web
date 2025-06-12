@@ -118,50 +118,49 @@ btnCerrarEditar.addEventListener("click", () => {
 })
 
 
-async function Actualizar(id, nombre, apellido, correo) {
+function Actualizar(id, nombre, apellido, correo) {
 
     document.getElementById("txtIdEditar").value = id;
-    document.getElementById("txtNombrePut").value = nombre;
-    document.getElementById("txtApellidoPut").value = apellido;
-    document.getElementById("txtemailPut").value = correo;
+    document.getElementById("txtNombreEditar").value = nombre;
+    document.getElementById("txtApellidoEditar").value = apellido;
+    document.getElementById("txtemailEditar").value = correo;
 
-    const confirmacion = confirm("¿Seguro que desea actualizar el regsitro");
-    if (confirmacion) {
-        modalEditar.showModal();
+    modalEditar.showModal();
+}
 
-        frmEditar.addEventListener("submit", async e => {
-            e.preventDefault();
+frmEditar.addEventListener("submit", async e => {
+    e.preventDefault();
 
-            const nombre = document.getElementById("txtNombrePut").value.trim();
-            const apellido = document.getElementById("txtApellidoPut").value.trim();
-            const correo = document.getElementById("txtemailPut").value.trim();
+    const id = document.getElementById("txtIdEditar").value;
+    const nombre = document.getElementById("txtNombreEditar").value.trim();
+    const apellido = document.getElementById("txtApellidoEditar").value.trim();
+    const correo = document.getElementById("txtemailEditar").value.trim();
 
-            if (!nombre || !apellido || !correo) {
-                alert("Complete todo los campos requeridos")
-                return;
-            }
-
-            const respuesta = await fetch(`${API_URL}/${id}`, {
-                method: "PUT",
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({
-                    nombre,
-                    apellido,
-                    correo
-                })
-            });
-
-            if (respuesta.ok) {
-                alert("El registro fue Actualizado correctamente");
-                document.getElementById("frmEditar").reset();
-                modalEditar.close();
-            }
-
-            ObtenerRegistros();
-
-        })
-
+    if (!id || !nombre || !apellido || !correo) {
+        alert("Complete todo los campos requeridos")
+        return;
     }
 
+    const respuesta = await fetch(`${API_URL}/${id}`, {
+        method: "PUT",
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+            id,
+            nombre,
+            apellido,
+            correo
+        })
+    });
 
-}
+    if (respuesta.ok) {
+        alert("El registro fue Actualizado correctamente");
+        document.getElementById("frmEditar").reset();
+        modalEditar.close();
+    }
+    else {
+        alert("Hubo un error al actualizar")
+    }
+
+    ObtenerRegistros();
+
+})
