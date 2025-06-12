@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Hoteles</title>
+    <title>Managment</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.min.css">
     <link rel="stylesheet" href="css/style.css">
 </head>
@@ -72,17 +72,19 @@
         <article>
             <header>
                 <a href="#" class="close" id="btnCerrarModalEditar"></a>
-                <h3>Agregar Integrante</h3>
+                <h3>Editar Integrante</h3>
             </header>
             <form id="frmEditar">
-                <input type="text" id="txtNombrePut" placeholder="asd" required>
+                <input type="hidden" id="txtIdEditar">
+
+                <input type="text" id="txtNombrePut" placeholder="Nombre" required>
 
                 <input type="text" id="txtApellidoPut" placeholder="Apellido" required>
 
                 <input type="email" id="txtemailPut" placeholder="Correo Electronico" required>
 
                 <button type="submit" class="contrast">
-                    Guardar registros
+                    Guardar 
                 </button>
             </form>
         </article>

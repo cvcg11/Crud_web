@@ -30,7 +30,7 @@ function MostrarRegistro(datos) {
                 <td>${persona.apellido}</td>
                 <td>${persona.correo}</td>
                 <td>
-                    <button onclick="Actualizar(${persona.id})">Editar</button>
+                    <button onclick="Actualizar('${persona.id}','${persona.nombre}','${persona.apellido}','${persona.correo}')">Editar</button>
                     <button onclick="Eliminar(${persona.id})">Eliminar</button>
                 </td>
             </tr>
@@ -109,19 +109,25 @@ async function Eliminar(id) {
 
 
 
-const modals = document.getElementById("mdEditar")
+const modalEditar = document.getElementById("mdEditar")
 const btnCerrarEditar = document.getElementById("btnCerrarModalEditar");
 const frmEditar = document.getElementById("frmEditar")
 
 btnCerrarEditar.addEventListener("click", () => {
-    modals.close();
+    modalEditar.close();
 })
 
 
-async function Actualizar(id) {
+async function Actualizar(id, nombre, apellido, correo) {
+
+    document.getElementById("txtIdEditar").value = id;
+    document.getElementById("txtNombrePut").value = nombre;
+    document.getElementById("txtApellidoPut").value = apellido;
+    document.getElementById("txtemailPut").value = correo;
+
     const confirmacion = confirm("¿Seguro que desea actualizar el regsitro");
     if (confirmacion) {
-        modals.showModal();
+        modalEditar.showModal();
 
         frmEditar.addEventListener("submit", async e => {
             e.preventDefault();
@@ -144,13 +150,13 @@ async function Actualizar(id) {
                     correo
                 })
             });
-        
+
             if (respuesta.ok) {
                 alert("El registro fue Actualizado correctamente");
                 document.getElementById("frmEditar").reset();
-                modals.close();
+                modalEditar.close();
             }
-        
+
             ObtenerRegistros();
 
         })
